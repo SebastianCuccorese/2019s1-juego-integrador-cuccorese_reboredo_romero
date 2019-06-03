@@ -1,4 +1,5 @@
 import wollok.game.*
+import harold.*
 program laberinto{
 	
 	//	CONFIG	
@@ -7,6 +8,17 @@ program laberinto{
 	game.width(10)
 	game.ground("fondo.png")
 	
+	//VISUALES
+	//game.addVisual(harold)
+	
+	//TECLADO
+	
+//	keyboard.up().onPressDo{harold.moverse(harold.posicion().up(1))}
+//	keyboard.down().onPressDo{harold.moverse(harold.posicion().down(1))}
+//	keyboard.right().onPressDo{harold.moverse(harold.posicion().right(1))}
+//	keyboard.left().onPressDo{harold.moverse(harold.posicion().left(1))}
+	
 	//start
 	game.start()
+	
 }
