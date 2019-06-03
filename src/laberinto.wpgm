@@ -1,6 +1,12 @@
-
-program abc {
-
-	console.println('Hello Wollok')
-
+import wollok.game.*
+program laberinto{
+	
+	//	CONFIG	
+	game.title("laberintos")
+	game.height(10)
+	game.width(10)
+	game.ground("fondo.png")
+	
+	//start
+	game.start()
 }
