@@ -10,9 +10,9 @@ object harold {
 		energia -= 1
 		posicion = nuevaPosicion
 	}
-	method image() {return "jugador.png"}
+	method image() {return "jugador.png"} // i didn't steal anything :D
 	method guardarComida(comida) {
-		mochila.add(comida)
+		mochila.add(comida) 
 	}
 	method comerPrimeroDeLaMochila() {
 		if(self.mochila().size() > 0) {
