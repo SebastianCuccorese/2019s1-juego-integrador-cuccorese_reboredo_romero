@@ -1,22 +1,26 @@
 import wollok.game.*
 import harold.*
+import muros.*
+import comida.*
 program laberinto{
 	
 	//	CONFIG	
 	game.title("laberintos")
 	game.height(10)
 	game.width(10)
-	game.ground("fondo.png")
+	game.ground("ground.png")
 	
 	//VISUALES
-	//game.addVisual(harold)
+	game.addVisual(harold)
+	game.addVisual(new Muro(position = game.at(3,3)))
+	game.addVisual(new Manzana(position = game.at(5,3)))
 	
 	//TECLADO
 	
-//	keyboard.up().onPressDo{harold.moverse(harold.posicion().up(1))}
-//	keyboard.down().onPressDo{harold.moverse(harold.posicion().down(1))}
-//	keyboard.right().onPressDo{harold.moverse(harold.posicion().right(1))}
-//	keyboard.left().onPressDo{harold.moverse(harold.posicion().left(1))}
+	keyboard.up().onPressDo{harold.moverse(harold.position().up(1))}
+	keyboard.down().onPressDo{harold.moverse(harold.position().down(1))}
+	keyboard.right().onPressDo{harold.moverse(harold.position().right(1))}
+	keyboard.left().onPressDo{harold.moverse(harold.position().left(1))}
 	
 	//start
 	game.start()

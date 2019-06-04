@@ -4,13 +4,13 @@ object harold {
 	var property salud = 100
 	var property energia = 10
 	const property mochila = []
-	var property posicion = game.at(0,0)
-	
+	var property position = game.at(0,0)
+	method image() = "jugador.png"
 	method moverse(nuevaPosicion) {
 		energia -= 1
-		posicion = nuevaPosicion
+		position = nuevaPosicion
 	}
-	method image() {return "jugador.png"} // i didn't steal anything :D
+	//method image() {return "jugador.png"} 
 	method guardarComida(comida) {
 		mochila.add(comida) 
 	}
