@@ -2,20 +2,41 @@ import wollok.game.*
 import harold.*
 import muros.*
 import comida.*
+import meta.*
+import arma.*
+import zurg.*
+
 program laberinto{
 	
 	//	CONFIG	
 	game.title("laberintos")
-	game.height(10)
-	game.width(10)
+	game.height(12)
+	game.width(12)
 	game.ground("fondo2.png")
 	
 	//VISUALES
 	game.addVisual(harold)
-	game.addVisual(new Muro(position = game.at(3,3)))
+	game.addVisual(new Muro(position = game.at(11,11)))
+	game.addVisual(new Muro(position = game.at(10,11)))
+	game.addVisual(new Muro(position = game.at(9,11)))
+	game.addVisual(new Muro(position = game.at(8,11)))
+	game.addVisual(new Muro(position = game.at(7,11)))
+	game.addVisual(new Muro(position = game.at(6,11)))
+	game.addVisual(new Muro(position = game.at(5,11)))
+	game.addVisual(new Muro(position = game.at(4,11)))
+	game.addVisual(new Muro(position = game.at(3,11)))
+	game.addVisual(new Muro(position = game.at(2,11)))
+	game.addVisual(new Muro(position = game.at(1,11)))
+	game.addVisual(new Muro(position = game.at(0,11)))
 	game.addVisual(new Guiso(position = game.at(5,3)))
 	game.addVisual(new Hamburguesa(position = game.at(5,9)))
 	game.addVisual(new Empanadas(position = game.at(7,4)))
+	game.addVisual(new Espada(position= game.at(4,3)))
+	game.addVisual(meta)
+	game.addVisual(zurg)
+	
+	//COLISIONES
+	game.whenCollideDo(harold, {cosa => cosa.teEncontro(harold)})
 	
 	//TECLADO
 	
@@ -23,6 +44,7 @@ program laberinto{
 	keyboard.down().onPressDo{harold.moverse(harold.position().down(1))}
 	keyboard.right().onPressDo{harold.moverse(harold.position().right(1))}
 	keyboard.left().onPressDo{harold.moverse(harold.position().left(1))}
+	keyboard.z().onPressDo{harold.comerPrimeroDeLaMochila()}
 	
 	//start
 	game.start()

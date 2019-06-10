@@ -1,17 +1,24 @@
-class Guiso{
+class Comida{
+	method teEncontro(persona){
+		persona.guardarComida(self)
+	}
+}
+
+class Guiso inherits Comida{
 	var property position
 	method image()= "guiso.png"
-	method energia() = 70
+	method energia() = 10
+	
 }
 
-class Empanadas{
+class Empanadas inherits Comida{
 	var property position
 	method image()= "empanadas.png"
-	method energia() = 50
+	method energia() = 5
 }
 
-class Hamburguesa{
+class Hamburguesa inherits Comida{
 	var property position
 	method image()= "hamburguesa.png"
-	method energia() = 30
+	method energia() = 3
 }
