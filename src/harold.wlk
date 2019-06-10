@@ -1,11 +1,13 @@
 import wollok.game.*
 import gameover.*
 import zurg.*
+import arma.*
 
 object harold {
 	var property salud = 100
 	var property energia = 10
 	const property mochila = []
+	var property espada = false
 	var property position = game.at(0,0)
 	method image() = "jugador.png"
 	method moverse(nuevaPosicion) {
@@ -46,5 +48,9 @@ object harold {
 			//barra casi en 0
 			game.say(self,"necesito energía")
 		}
+	}
+	method agarrarEspada() {
+			espada = true
+			
 	}
 }
