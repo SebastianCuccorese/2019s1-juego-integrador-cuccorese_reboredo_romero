@@ -4,8 +4,8 @@ import zurg.*
 import arma.*
 
 object harold {
-	var property salud = 100
-	var property energia = 10
+	var property salud = 1000000
+	var property energia = 100000
 	const property mochila = []
 	var property espada = false
 	var property position = game.at(0,0)
@@ -97,5 +97,9 @@ object harold {
 			salud -= 10
 		self.moverse(self.position().right(1))
 		}
+	}
+	method siguienteNivel(siguienteNivel){
+		//game.clear()
+		siguienteNivel.setear()
 	}
 }
