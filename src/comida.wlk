@@ -7,18 +7,18 @@ class Comida{
 class Guiso inherits Comida{
 	var property position
 	method image()= "guiso.png"
-	method energia() = 10
+	method energia() = 15
 	
 }
 
 class Empanadas inherits Comida{
 	var property position
 	method image()= "empanadas.png"
-	method energia() = 5
+	method energia() = 10
 }
 
 class Hamburguesa inherits Comida{
 	var property position
 	method image()= "hamburguesa.png"
-	method energia() = 3
+	method energia() = 8
 }

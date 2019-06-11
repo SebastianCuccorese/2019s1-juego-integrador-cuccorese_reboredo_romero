@@ -34,7 +34,10 @@ object harold {
 		else { throw new Exception("la mochila esta vacia") }
 	}
 	method chocarEnemigo(enemigo) {
-		salud -= enemigo.ataque()
+		if(not self.espada()) {
+		salud -= enemigo.ataque() }
+		else {game.removeVisual(enemigo)}
+		
 	}
 	method nivelesDeEnergia(){
 		//tengo que editar barras
@@ -50,7 +53,49 @@ object harold {
 		}
 	}
 	method agarrarEspada() {
-			espada = true
-			
+			espada = true		
+	}
+	method chocarConMuro(muro) {
+		self.chocarConMurosLaterales(muro)
+	}
+	
+	
+	method chocarConMurosLaterales(muro) {
+	if(muro.position().y() == 11) {
+		self.colisionConMuroSuperior(muro) 
+		}	
+	else if(muro.position().x() == 12) {
+		self.colisionConMuroDerecha(muro)
+		}
+	else if(muro.position().y() == 1) {
+		self.colisionConMuroInferior(muro)
+		}
+	else if(muro.position().x() == 1) {
+		self.colisionConMuroIzquierda(muro)
+		}
+	}
+	method colisionConMuroSuperior(muro) {
+		if(muro.position().y() == self.position().y()) {
+			salud -= 10
+		self.moverse(self.position().down(1))
+		}
+	}
+		method colisionConMuroDerecha(muro) {
+		if(muro.position().x() == self.position().x()) {
+			salud -= 10
+		self.moverse(self.position().left(1))
+		}
+	}
+		method colisionConMuroInferior(muro) {
+		if(muro.position().y() == self.position().y()) {
+			salud -= 10
+		self.moverse(self.position().up(1))
+		}	
+	}
+		method colisionConMuroIzquierda(muro) {
+		if(muro.position().x() == self.position().x()) {
+			salud -= 10
+		self.moverse(self.position().right(1))
+		}
 	}
 }
