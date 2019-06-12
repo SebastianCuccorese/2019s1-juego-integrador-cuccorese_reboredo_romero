@@ -4,8 +4,8 @@ import zurg.*
 import arma.*
 
 object harold {
-	var property salud = 1000000
-	var property energia = 100000
+	var property salud = 100
+	var property energia = 10
 	const property mochila = []
 	var property espada = false
 	var property position = game.at(0,0)
@@ -34,8 +34,8 @@ object harold {
 			mochila.remove(mochila.first())
 		}
 		else { throw new Exception("la mochila esta vacia") }
-	}
-	method chocarEnemigo(enemigo) {
+	}/*Cambio valor de Chocar enemigo luchar */
+	method luchar(enemigo) {
 		if(not self.espada()) {
 		salud -= enemigo.ataque() }
 		else {game.removeVisual(enemigo)}
