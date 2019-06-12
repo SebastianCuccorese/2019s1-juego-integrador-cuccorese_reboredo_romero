@@ -10,12 +10,18 @@ class Niveles {
 
 	var property niveles = [ nivel1, nivel2, nivel3, nivel4, nivel5 ]
 
-	method siguienteNivel() {
-		self.niveles(niveles.drop(1))
-		return self.niveles().first()
+	method pasarASiguienteNivel(personaje){/*Luego ir viendo precondiciones de paso a nivel del personaje */
+		if(meta.position() == harold.position()){
+			self.niveles(niveles.drop(1))
+			niveles.head().setear()
+			}else{
+				/*Tirar error */
+				game.say(harold, "No puedo pasar de Nivel")
+			}
 	}
-
 	method setear() {
+		//Limpio todo primero que nada
+		game.clear()
 		// Muros
 		self.murosLaterales()
 		self.complejidad()
@@ -80,14 +86,15 @@ class Niveles {
 		keyboard.right().onPressDo{harold.moverse(harold.position().right(1))}
 		keyboard.left().onPressDo{harold.moverse(harold.position().left(1))}
 		keyboard.z().onPressDo{harold.comerPrimeroDeLaMochila()}
+		keyboard.p().onPressDo{self.pasarASiguienteNivel(harold)}
 	}
 	method elementosEstandar(){
 		harold.position(game.at(0,0))
 		game.addVisual(harold)
 		game.addVisual(meta)}
 	method colisionesEstandar(){/*REVISAR COLICION CON LA META YA QUE NO HACE EL CAMBIO DE NIVEL */
-		game.whenCollideDo(meta, { cosa => cosa.teEncontro(harold, self.siguienteNivel())})
-		game.whenCollideDo(harold, { cosa => cosa.teEncontro(harold, self.siguienteNivel())})
+		//game.whenCollideDo(meta, { harold => harold.siguienteNivel(self.siguienteNivel())})
+		game.whenCollideDo(harold, { cosa => cosa.teEncontro(harold)})
 	}
 }
 
@@ -135,6 +142,7 @@ object nivel1 inherits Niveles {
 object nivel2 inherits Niveles {
 
 	override method complejidad() {
+		game.addVisual(new Muro(position = game.at(8, 8)))
 	}
 }
 

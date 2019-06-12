@@ -61,7 +61,5 @@ object harold {
 		salud -= 10
 		position = oldPosition
 	}
-	method siguienteNivel(siguienteNivel){
-		siguienteNivel.setear()
-	}
+	method teEncontro(persona){}
 }
