@@ -1,5 +1,5 @@
 class Comida{
-	method teEncontro(persona){
+	method teEncontro(persona, siguienteNivel){
 		persona.guardarComida(self)
 	}
 }

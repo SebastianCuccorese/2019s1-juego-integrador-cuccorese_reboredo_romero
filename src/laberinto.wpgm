@@ -1,33 +1,16 @@
 import wollok.game.*
-import harold.*
-import muros.*
-import comida.*
-import meta.*
-import arma.*
-import zurg.*
 import niveles.*
 
 program laberinto{
 	
 	//	CONFIG	
-	game.title("laberintos")
+	game.title("Laberintos")
 	game.height(12)
 	game.width(12)
 	game.ground("fondo2.png")
 	
-	//Seteo laberinto Nivel 1
+	//Seteo el Laberinto Nivel 1 para comenzar
 	nivel1.setear()
-	
-	//COLISIONES
-	//game.whenCollideDo(harold, {cosa => cosa.teEncontro(harold)})
-	
-	//TECLADO
-	
-	keyboard.up().onPressDo{harold.moverse(harold.position().up(1))}
-	keyboard.down().onPressDo{harold.moverse(harold.position().down(1))}
-	keyboard.right().onPressDo{harold.moverse(harold.position().right(1))}
-	keyboard.left().onPressDo{harold.moverse(harold.position().left(1))}
-	keyboard.z().onPressDo{harold.comerPrimeroDeLaMochila()}
 	
 	//start
 	game.start()
