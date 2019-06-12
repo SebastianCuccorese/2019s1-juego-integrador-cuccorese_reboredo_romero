@@ -5,15 +5,17 @@ import comida.*
 import meta.*
 import arma.*
 import zurg.*
+
 /*Hay un bug en el cambio de niveles.. siempre pasa al 2.. revisar bien */
 class Niveles {
 
-	var property niveles = [ nivel1, nivel2, nivel3, nivel4, nivel5 ]
+	method siguienteNivel() {
+		return nivel1
+	}
 
-	method pasarASiguienteNivel(personaje) { /*Luego ir viendo precondiciones de paso a nivel del personaje */
+	method pasarASiguienteNivel(personaje) { /*Luego ir viendo precondiciones de paso a nivel del personaje*/
 		if (meta.position() == harold.position()) {
-			self.niveles(niveles.drop(1))
-			niveles.head().setear()
+			self.siguienteNivel().setear()
 		} else {
 			game.say(harold, "No puedo pasar de Nivel")
 		}
@@ -93,6 +95,8 @@ class Niveles {
 		harold.position(game.at(0, 0))
 		game.addVisual(harold)
 		game.addVisual(meta)
+		game.addVisual(zurg)
+		game.onTick(500, "test", { zurg.moverse()})
 	}
 
 	method colisionesEstandar() {
@@ -102,6 +106,24 @@ class Niveles {
 }
 
 object nivel1 inherits Niveles {
+
+	override method siguienteNivel() {
+		return nivel2
+	}
+
+	method alimentos() {
+		game.addVisual(new Guiso(position = game.at(1, 5)))
+		game.addVisual(new Guiso(position = game.at(10, 6)))
+		game.addVisual(new Hamburguesa(position = game.at(1, 3)))
+		game.addVisual(new Hamburguesa(position = game.at(6, 1)))
+		game.addVisual(new Empanadas(position = game.at(2, 10)))
+	}
+
+	method villanos() {
+		game.addVisual(new Espada(position = game.at(3, 3)))
+	// game.addVisual(new Guiso(position = game.at(1, 7))) Cuando se modele se agrega
+	// game.addVisual(new Guiso(position = game.at(5, 5))) Cuando se modele se agrega
+	}
 
 	method murosInternos() {
 		game.addVisual(new Muro(position = game.at(1, 10)))
@@ -135,15 +157,27 @@ object nivel1 inherits Niveles {
 		game.addVisual(new Muro(position = game.at(7, 4)))
 		game.addVisual(new Muro(position = game.at(2, 3)))
 		game.addVisual(new Muro(position = game.at(5, 3)))
+		game.addVisual(new Muro(position = game.at(5, 2)))
+		game.addVisual(new Muro(position = game.at(7, 2)))
+		game.addVisual(new Muro(position = game.at(8, 2)))
+		game.addVisual(new Muro(position = game.at(9, 2)))
+		game.addVisual(new Muro(position = game.at(10, 2)))
+		game.addVisual(new Muro(position = game.at(5, 1)))
 	}
 
 	override method complejidad() {
 		self.murosInternos()
+		self.alimentos()
+		self.villanos()
 	}
 
 }
 
 object nivel2 inherits Niveles {
+
+	override method siguienteNivel() {
+		return nivel3
+	}
 
 	method murosInternos() {
 		game.addVisual(new Muro(position = game.at(5, 10)))
@@ -169,6 +203,12 @@ object nivel2 inherits Niveles {
 		game.addVisual(new Muro(position = game.at(7, 3)))
 		game.addVisual(new Muro(position = game.at(9, 3)))
 		game.addVisual(new Muro(position = game.at(10, 3)))
+		game.addVisual(new Muro(position = game.at(2, 2)))
+		game.addVisual(new Muro(position = game.at(3, 2)))
+		game.addVisual(new Muro(position = game.at(4, 2)))
+		game.addVisual(new Muro(position = game.at(6, 2)))
+		game.addVisual(new Muro(position = game.at(7, 2)))
+		game.addVisual(new Muro(position = game.at(8, 2)))
 	}
 
 	override method complejidad() {
@@ -178,6 +218,10 @@ object nivel2 inherits Niveles {
 }
 
 object nivel3 inherits Niveles {
+
+	override method siguienteNivel() {
+		return nivel4
+	}
 
 	method murosInternos() {
 		game.addVisual(new Muro(position = game.at(9, 10)))
@@ -221,9 +265,12 @@ object nivel3 inherits Niveles {
 
 object nivel4 inherits Niveles {
 
+	override method siguienteNivel() {
+		return nivel5
+	}
+
 	method murosInternos() {
 		game.addVisual(new Muro(position = game.at(4, 10)))
-		game.addVisual(new Muro(position = game.at(8, 10)))
 		game.addVisual(new Muro(position = game.at(2, 9)))
 		game.addVisual(new Muro(position = game.at(4, 9)))
 		game.addVisual(new Muro(position = game.at(6, 9)))
@@ -244,7 +291,7 @@ object nivel4 inherits Niveles {
 		game.addVisual(new Muro(position = game.at(8, 6)))
 		game.addVisual(new Muro(position = game.at(3, 5)))
 		game.addVisual(new Muro(position = game.at(5, 5)))
-		game.addVisual(new Muro(position = game.at(7, 5)))
+		game.addVisual(new Muro(position = game.at(7, 6)))
 		game.addVisual(new Muro(position = game.at(8, 5)))
 		game.addVisual(new Muro(position = game.at(9, 5)))
 		game.addVisual(new Muro(position = game.at(1, 4)))
@@ -253,8 +300,17 @@ object nivel4 inherits Niveles {
 		game.addVisual(new Muro(position = game.at(5, 4)))
 		game.addVisual(new Muro(position = game.at(7, 4)))
 		game.addVisual(new Muro(position = game.at(1, 3)))
-		game.addVisual(new Muro(position = game.at(5, 3)))
 		game.addVisual(new Muro(position = game.at(9, 3)))
+		game.addVisual(new Muro(position = game.at(1, 2)))
+		game.addVisual(new Muro(position = game.at(2, 2)))
+		game.addVisual(new Muro(position = game.at(3, 2)))
+		game.addVisual(new Muro(position = game.at(4, 2)))
+		game.addVisual(new Muro(position = game.at(5, 2)))
+		game.addVisual(new Muro(position = game.at(6, 2)))
+		game.addVisual(new Muro(position = game.at(7, 2)))
+		game.addVisual(new Muro(position = game.at(8, 4)))
+		game.addVisual(new Muro(position = game.at(9, 2)))
+		game.addVisual(new Muro(position = game.at(9, 1)))
 	}
 
 	override method complejidad() {
@@ -264,6 +320,10 @@ object nivel4 inherits Niveles {
 }
 
 object nivel5 inherits Niveles {
+
+	override method siguienteNivel() {
+		return nivel1
+	}
 
 	method murosInternos() {
 		game.addVisual(new Muro(position = game.at(1, 10)))
@@ -300,6 +360,12 @@ object nivel5 inherits Niveles {
 		game.addVisual(new Muro(position = game.at(2, 3)))
 		game.addVisual(new Muro(position = game.at(3, 3)))
 		game.addVisual(new Muro(position = game.at(5, 3)))
+		game.addVisual(new Muro(position = game.at(3, 2)))
+		game.addVisual(new Muro(position = game.at(5, 2)))
+		game.addVisual(new Muro(position = game.at(6, 2)))
+		game.addVisual(new Muro(position = game.at(7, 2)))
+		game.addVisual(new Muro(position = game.at(8, 2)))
+		game.addVisual(new Muro(position = game.at(9, 2)))
 	}
 
 	override method complejidad() {
