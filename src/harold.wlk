@@ -5,7 +5,7 @@ import arma.*
 
 object harold {
 	var property salud = 100
-	var property energia = 10
+	var property energia = 100
 	const property mochila = []
 	var property espada = false
 	var property position = game.at(0,0)
@@ -26,7 +26,7 @@ object harold {
 	
 	method guardarComida(comida) {
 		game.removeVisual(comida)
-		mochila.add(comida) 
+		mochila.add(comida)
 	}
 	method comerPrimeroDeLaMochila() {
 		if(self.mochila().size() > 0 and self.energia() > 0) {
@@ -56,6 +56,9 @@ object harold {
 	}
 	method agarrarEspada() {
 			espada = true		
+	}
+	method perderEspada(){
+		espada = false
 	}
 	method chocarConMuro() {
 		salud -= 10
