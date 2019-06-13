@@ -25,8 +25,8 @@ object harold {
 	}
 	
 	method guardarComida(comida) {
-		game.removeVisual(comida)
 		mochila.add(comida) 
+		game.removeVisual(comida)
 	}
 	method comerPrimeroDeLaMochila() {
 		if(self.mochila().size() > 0 and self.energia() > 0) {
