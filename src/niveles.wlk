@@ -6,7 +6,6 @@ import meta.*
 import arma.*
 import zurg.*
 
-/*Hay un bug en el cambio de niveles.. siempre pasa al 2.. revisar bien */
 class Niveles {
 
 	method siguienteNivel() {
@@ -15,6 +14,7 @@ class Niveles {
 
 	method pasarASiguienteNivel(personaje) { /*Luego ir viendo precondiciones de paso a nivel del personaje*/
 		if (meta.position() == harold.position()) {
+			harold.perderEspada()
 			self.siguienteNivel().setear()
 		} else {
 			game.say(harold, "No puedo pasar de Nivel")
