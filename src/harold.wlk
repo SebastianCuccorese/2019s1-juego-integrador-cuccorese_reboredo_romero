@@ -25,14 +25,10 @@ object harold {
 	}
 	
 	method guardarComida(comida) {
-<<<<<<< HEAD
+
 		mochila.add(comida) 
 		game.removeVisual(comida)
-=======
-		game.removeVisual(comida)
-		mochila.add(comida)
->>>>>>> branch 'master' of https://github.com/obj1unq/2019s1-juego-integrador-cuccorese_reboredo_romero.git
-	}
+		}
 	method comerPrimeroDeLaMochila() {
 		if(self.mochila().size() > 0 and self.energia() > 0) {
 			energia += mochila.first().energia()
