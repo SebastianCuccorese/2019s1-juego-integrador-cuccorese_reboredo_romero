@@ -5,6 +5,8 @@ import comida.*
 import meta.*
 import arma.*
 import zurg.*
+import barrasDeEnergia.*
+import enemigos.*
 
 class Niveles {
 
@@ -96,6 +98,7 @@ class Niveles {
 		game.addVisual(harold)
 		game.addVisual(meta)
 		game.addVisual(zurg)
+		harold.estadoDeEnergia() //asi la barra de energia siempre aparece
 		game.onTick(500, "test", { zurg.moverse()})
 	}
 
@@ -110,6 +113,10 @@ object nivel1 inherits Niveles {
 	override method siguienteNivel() {
 		return nivel2
 	}
+	
+	method energiaDeInicio(){  //el nivel 1 inicia con la energia de harold al 100%, tuve que hacerlo para el reset
+		harold.setearEnergia(50)
+	}
 
 	method alimentos() {
 		game.addVisual(new Guiso(position = game.at(1, 5)))
@@ -121,6 +128,8 @@ object nivel1 inherits Niveles {
 
 	method villanos() {
 		game.addVisual(new Espada(position = game.at(3, 3)))
+		game.addVisual(new Lobo(position = game.at(6,5), ataque=10))
+		//game.addVisual(new Fantasma(ataque = 30, game.at(6,5)))
 	// game.addVisual(new Guiso(position = game.at(1, 7))) Cuando se modele se agrega
 	// game.addVisual(new Guiso(position = game.at(5, 5))) Cuando se modele se agrega
 	}
@@ -169,6 +178,7 @@ object nivel1 inherits Niveles {
 		self.murosInternos()
 		self.alimentos()
 		self.villanos()
+		self.energiaDeInicio()
 	}
 
 }

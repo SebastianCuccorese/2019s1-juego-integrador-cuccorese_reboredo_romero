@@ -20,6 +20,7 @@ class Enemigos {
 class Fantasma  {
 	var property position
 	var property ataque
+	method image()= "fantasma.png"
 	method posicionRandom() {
 	 	return 1.randomUpTo(12).truncate(0)
 	 }
@@ -29,6 +30,7 @@ class Fantasma  {
 }
 
 class Lobo inherits Enemigos {
+		method image()= "lobo.png"
 		override method movimiento() {
 		if(self.position().x() != 12) {
 			position += self.position().x() + 1
@@ -37,6 +39,7 @@ class Lobo inherits Enemigos {
 	}
 }
 class Cangrejo inherits Enemigos {
+	method image()= "cangrejo.png"
 	override method movimiento() {
 		if(self.position().x() != 12) {
 			position += self.position().x() + 1

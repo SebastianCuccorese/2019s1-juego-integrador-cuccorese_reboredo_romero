@@ -2,10 +2,12 @@ import wollok.game.*
 import gameover.*
 import zurg.*
 import arma.*
+import barrasDeEnergia.*
+import niveles.*
 
 object harold {
 	var property salud = 100
-	var property energia = 100
+	var property energia = 50
 	const property mochila = []
 	var property espada = false
 	var property position = game.at(0,0)
@@ -16,12 +18,23 @@ object harold {
 			energia -= 1
 			oldPosition = position
 			position = nuevaPosicion
-			self.nivelesDeEnergia() 
+			self.estadoDeEnergia() 
 		}
 		else {
-			game.addVisual(gameover)
-			game.say(zurg, "Estas muerto")
+			self.gameOverYReset()
 		}
+	}
+	
+	method gameOverYReset(){
+		game.addVisual(gameover)
+		game.addVisual(restart) //en gameover.wlk
+		game.say(zurg, "Estas muerto")
+		keyboard.enter().onPressDo{ nivel1.setear()} //vuelve a iniciar el juego
+		
+	}
+	
+	method setearEnergia(num){
+		energia = num
 	}
 	
 	method guardarComida(comida) {
@@ -42,18 +55,9 @@ object harold {
 		else {game.removeVisual(enemigo)}
 		
 	}
-	method nivelesDeEnergia(){
-		//tengo que editar barras
-		if(energia >= 10){
-			//barra al 100
-		}
-		else if(energia < 10 and energia >= 5){
-			//barra al 50
-		}
-		else if(energia == 3){
-			//barra casi en 0
-			game.say(self,"necesito energía")
-		}
+	method estadoDeEnergia(){
+		barraEnergia.energiaDe_(self)
+		game.addVisual(barraEnergia)
 	}
 	method agarrarEspada() {
 			espada = true		

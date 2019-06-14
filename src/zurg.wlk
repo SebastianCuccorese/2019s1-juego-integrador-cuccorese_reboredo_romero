@@ -11,10 +11,10 @@ object zurg {
 	}
 
 	method moverse() {
-		if (self.position() == game.at(0, 10)) {
-			self.position(game.at(0, 11))
-		} else {
+		if (self.position() == game.at(0, 9)) {
 			self.position(game.at(0, 10))
+		} else {
+			self.position(game.at(0, 9))
 		}
 	}
 
