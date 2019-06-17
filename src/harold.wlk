@@ -7,14 +7,14 @@ import niveles.*
 
 object harold {
 	var property salud = 100
-	var property energia = 50
+	var property energia = 300
 	const property mochila = []
 	var property espada = false
 	var property position = game.at(0,0)
 	var property oldPosition = game.at(0,0)
 	method image() = "jugador.png"
 	method moverse(nuevaPosicion) {
-		if (self.energia() > 0) {
+		if (self.energia() > 0 and self.salud() > 0) {
 			energia -= 1
 			oldPosition = position
 			position = nuevaPosicion
@@ -33,8 +33,9 @@ object harold {
 		
 	}
 	
-	method setearEnergia(num){
+	method setearEnergiaYSalud(num){
 		energia = num
+		salud = num
 	}
 	
 	method guardarComida(comida) {
@@ -51,7 +52,7 @@ object harold {
 	}/*Cambio valor de Chocar enemigo luchar */
 	method luchar(enemigo) {
 		if(not self.espada()) {
-		salud -= enemigo.ataque() }
+		salud = salud  - enemigo.ataque() }
 		else {game.removeVisual(enemigo)}
 		
 	}
@@ -70,4 +71,7 @@ object harold {
 		position = oldPosition
 	}
 	method teEncontro(persona){}
+	method conocerEstadoDeSalud(){
+		game.say(self, "tengo" + self.salud() + "de salud") //para que el usuario sepa cuanto tiene de salud
+	}
 }

@@ -3,8 +3,7 @@ import wollok.game.*
 
 class Enemigos {
 	var property position
-	var property ataque
-	var property oldPosition = position
+	var oldPosition = position
 	
 	method movimiento(){
 		
@@ -19,7 +18,7 @@ class Enemigos {
 
 class Fantasma  {
 	var property position
-	var property ataque
+	const property ataque = 20
 	method image()= "fantasma.png"
 	method posicionRandom() {
 	 	return 1.randomUpTo(12).truncate(0)
@@ -27,30 +26,34 @@ class Fantasma  {
 	 method position() {
 	 	return game.at(self.posicionRandom(), self.posicionRandom())
 	 }
+	 method teEncontro(unPersonaje){
+		unPersonaje.luchar(self)
+	}
 }
 
 class Lobo inherits Enemigos {
+		const property ataque = 30
 		method image()= "lobo.png"
 		override method movimiento() {
-		if(self.position().x() != 12) {
-			position += self.position().x() + 1
+		if(self.position()== oldPosition) {
+			position = game.at(self.position().x() + 1, self.position().y())
 		} 
-		else {position -= self.position().x() - 1}
+		else {position = game.at(self.position().x() - 1, self.position().y())}
 	}
 }
 class Cangrejo inherits Enemigos {
+	const property ataque = 10
 	method image()= "cangrejo.png"
 	override method movimiento() {
-		if(self.position().x() != 12) {
-			position += self.position().x() + 1
-			position += self.position().y() + 1
-		
+		if(self.position() == oldPosition) {
+			position = game.at(self.position().x(), self.position().y() - 1)
 		} 
-		else {position -= self.position().x() - 1
-			  position -= self.position().y() - 1
-		}
+		else {position = game.at(self.position().x(), self.position().y() - 1)}
 	}
 }
+
+
+/*seria mmás funcional al juego que el cangrejo se mueva en y Y el lobo en X, no logre que funcione */
 		
 	
 

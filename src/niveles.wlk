@@ -114,8 +114,9 @@ object nivel1 inherits Niveles {
 		return nivel2
 	}
 	
-	method energiaDeInicio(){  //el nivel 1 inicia con la energia de harold al 100%, tuve que hacerlo para el reset
-		harold.setearEnergia(50)
+	method estadoInicial(){  //configura a harold en su estado inicial(para el reset)
+		harold.setearEnergiaYSalud(300)
+		harold.perderEspada()
 	}
 
 	method alimentos() {
@@ -125,13 +126,18 @@ object nivel1 inherits Niveles {
 		game.addVisual(new Hamburguesa(position = game.at(6, 1)))
 		game.addVisual(new Empanadas(position = game.at(2, 10)))
 	}
+	
+	method armas(){
+		game.addVisual(new Espada(position = game.at(3, 3)))
+	}
 
 	method villanos() {
-		game.addVisual(new Espada(position = game.at(3, 3)))
-		game.addVisual(new Lobo(position = game.at(6,5), ataque=10))
-		//game.addVisual(new Fantasma(ataque = 30, game.at(6,5)))
-	// game.addVisual(new Guiso(position = game.at(1, 7))) Cuando se modele se agrega
-	// game.addVisual(new Guiso(position = game.at(5, 5))) Cuando se modele se agrega
+		
+		
+		const cangrejo = new Cangrejo(position = game.at(6,5))
+		game.addVisual(cangrejo)
+		//game.onTick(500, "test", { cangrejo.movimiento()})
+		game.addVisual(new Fantasma(position = game.at(7,8)))
 	}
 
 	method murosInternos() {
@@ -178,7 +184,8 @@ object nivel1 inherits Niveles {
 		self.murosInternos()
 		self.alimentos()
 		self.villanos()
-		self.energiaDeInicio()
+		self.estadoInicial()
+		self.armas()
 	}
 
 }
@@ -220,9 +227,34 @@ object nivel2 inherits Niveles {
 		game.addVisual(new Muro(position = game.at(7, 2)))
 		game.addVisual(new Muro(position = game.at(8, 2)))
 	}
+	
+	method armas(){
+		game.addVisual(new Espada(position= game.at(10,1)))
+	}
+	
+	method alimentos(){
+		game.addVisual(new Hamburguesa(position =game.at(1,3)))
+		game.addVisual(new Hamburguesa(position= game.at(8,7)))
+		game.addVisual(new Hamburguesa(position= game.at(1,10)))
+		game.addVisual(new Guiso(position = game.at(10, 4)))
+		game.addVisual(new Guiso(position = game.at(1,5)))
+		game.addVisual(new Guiso(position = game.at(6, 10)))
+		game.addVisual(new Empanadas(position = game.at(4,10)))
+		game.addVisual(new Empanadas(position = game.at(6,3)))
+		
+	}
+	method villanos(){
+		game.addVisual(new Cangrejo(position= game.at(5,3)))
+		game.addVisual(new Lobo(position= game.at(6,7)))
+		game.addVisual(new Fantasma(position=game.at(2,5)))
+		game.addVisual(new Fantasma(position=game.at(3,8)))
+	}
 
 	override method complejidad() {
 		self.murosInternos()
+		self.armas()
+		self.alimentos()
+		self.villanos()
 	}
 
 }
@@ -266,9 +298,36 @@ object nivel3 inherits Niveles {
 		game.addVisual(new Muro(position = game.at(3, 1)))
 		game.addVisual(new Muro(position = game.at(8, 1)))
 	}
+	
+	method armas(){
+		game.addVisual(new Espada(position= game.at(7,2)))
+		game.addVisual(new Espada(position= game.at(3,5)))
+	}
+	
+	method alimentos(){
+		game.addVisual(new Hamburguesa(position =game.at(2,2)))
+		game.addVisual(new Hamburguesa(position= game.at(10,5)))
+		game.addVisual(new Hamburguesa(position= game.at(8,10)))
+		game.addVisual(new Guiso(position = game.at(5,7)))
+		game.addVisual(new Guiso(position = game.at(9,2)))
+		game.addVisual(new Empanadas(position = game.at(10,1)))
+		game.addVisual(new Empanadas(position = game.at(4,10)))
+		
+	}
+	method villanos(){
+		game.addVisual(new Cangrejo(position= game.at(2,10)))
+		game.addVisual(new Cangrejo(position= game.at(4,1)))
+		game.addVisual(new Lobo(position= game.at(7,8)))
+		game.addVisual(new Lobo(position= game.at(9,4)))
+		game.addVisual(new Fantasma(position=game.at(9,7)))
+	}
 
 	override method complejidad() {
 		self.murosInternos()
+		self.murosInternos()
+		self.armas()
+		self.alimentos()
+		self.villanos()
 	}
 
 }
@@ -322,9 +381,35 @@ object nivel4 inherits Niveles {
 		game.addVisual(new Muro(position = game.at(9, 2)))
 		game.addVisual(new Muro(position = game.at(9, 1)))
 	}
+	
+	method armas(){
+		game.addVisual(new Espada(position= game.at(4,5)))
+		game.addVisual(new Espada(position= game.at(7,5)))
+	}
+	
+	method alimentos(){
+		game.addVisual(new Hamburguesa(position =game.at(3,10)))
+		game.addVisual(new Hamburguesa(position= game.at(8,3)))
+		game.addVisual(new Guiso(position = game.at(10,1)))
+		game.addVisual(new Guiso(position = game.at(7,7)))
+		game.addVisual(new Empanadas(position = game.at(1,1)))
+		game.addVisual(new Empanadas(position = game.at(10,6)))
+		
+	}
+	method villanos(){
+		game.addVisual(new Cangrejo(position= game.at(6,4)))
+		game.addVisual(new Cangrejo(position= game.at(9,10)))
+		game.addVisual(new Lobo(position= game.at(5,7)))
+		game.addVisual(new Lobo(position= game.at(9,4)))
+		game.addVisual(new Fantasma(position=game.at(2,5)))
+	}
 
 	override method complejidad() {
 		self.murosInternos()
+		self.murosInternos()
+		self.armas()
+		self.alimentos()
+		self.villanos()
 	}
 
 }
@@ -377,9 +462,37 @@ object nivel5 inherits Niveles {
 		game.addVisual(new Muro(position = game.at(8, 2)))
 		game.addVisual(new Muro(position = game.at(9, 2)))
 	}
+	
+	method armas(){
+		game.addVisual(new Espada(position= game.at(1,6)))
+		game.addVisual(new Espada(position= game.at(8,6)))
+	}
+	
+	method alimentos(){
+		game.addVisual(new Hamburguesa(position =game.at(3,10)))
+		game.addVisual(new Hamburguesa(position= game.at(10,1)))
+		game.addVisual(new Hamburguesa(position= game.at(4,7)))
+		game.addVisual(new Guiso(position = game.at(6,3)))
+		game.addVisual(new Empanadas(position = game.at(10,8)))
+		
+	}
+	method villanos(){
+		game.addVisual(new Cangrejo(position= game.at(2,8)))
+		game.addVisual(new Cangrejo(position= game.at(2,2)))
+		game.addVisual(new Cangrejo(position= game.at(8,7)))
+		game.addVisual(new Lobo(position= game.at(7,10)))
+		game.addVisual(new Lobo(position= game.at(9,4)))
+		game.addVisual(new Fantasma(position=game.at(6,4)))
+		game.addVisual(new Fantasma(position=game.at(10,10)))
+	}
+	
 
 	override method complejidad() {
 		self.murosInternos()
+		self.murosInternos()
+		self.armas()
+		self.alimentos()
+		self.villanos()
 	}
 
 }
