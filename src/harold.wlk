@@ -4,12 +4,13 @@ import zurg.*
 import arma.*
 import barrasDeEnergia.*
 import niveles.*
+import mochila.*
 
 object harold {
 
 	var property salud = 100
 	var property energia = 300
-	const property mochila = []
+	const property mochilaDeHarold = mochila
 	var property espada = false
 	var property position = game.at(0, 0)
 	var property oldPosition = game.at(0, 0)
@@ -39,15 +40,20 @@ object harold {
 		salud = num
 	}
 
+	method guardarLlave(llave) {
+		mochilaDeHarold.guardarLlave(llave)
+		game.removeVisual(llave)
+	}
+
 	method guardarComida(comida) {
-		mochila.add(comida)
+		mochilaDeHarold.guardarComida(comida)
 		game.removeVisual(comida)
 	}
 
 	method comerPrimeroDeLaMochila() {
-		if (self.mochila().size() > 0 and self.energia() > 0) {
-			energia += mochila.first().energia()
-			mochila.remove(mochila.first())
+		if (self.mochilaDeHarold().comidas().size() > 0 and self.energia() > 0) {
+			energia += mochilaDeHarold.comidas().first().energia()
+			mochilaDeHarold.comidas().remove(mochilaDeHarold.comidas().first())
 		} else {
 			throw new Exception("la mochila esta vacia")
 		}
