@@ -1,5 +1,5 @@
 import wollok.game.*
-import gameover.*
+import estadosDeJuego.*
 import zurg.*
 import arma.*
 import barrasDeEnergia.*
@@ -14,16 +14,27 @@ object harold {
 	var property espada = false
 	var property position = game.at(0, 0)
 	var property oldPosition = game.at(0, 0)
+	var derroteAZurg = false  
 
 	method image() = "jugador.png"
 
 	method moverse(nuevaPosicion) {
-		if (self.energia() > 0 and self.salud() > 0) {
+		if (self.energia() > 0 and self.salud() > 0 and not derroteAZurg) {
 			energia -= 1
 			oldPosition = position
 			position = nuevaPosicion
 			self.estadoDeEnergia()
 		} else {
+			self.darAConocerEstadoDeJuego()  //se analiza si perdio o derroto a zurg
+		}
+	}
+
+	method derrotarAZurg(){ //este metodo es para que cuando se gane en la batalla final deje de poder moverse
+		derroteAZurg = true
+	}
+	
+	method darAConocerEstadoDeJuego(){
+		if( not derroteAZurg){
 			self.gameOverYReset()
 		}
 	}
@@ -93,6 +104,8 @@ object harold {
 	method conocerEstadoDeSalud() {
 		game.say(self, "tengo" + self.salud() + "de salud") // para que el usuario sepa cuanto tiene de salud
 	}
+	
+	method encontroLasLlaves(){return true}  //por el momento retorno true como prueba
 
 }
 

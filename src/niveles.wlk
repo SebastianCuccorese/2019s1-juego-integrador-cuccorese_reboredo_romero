@@ -7,6 +7,9 @@ import arma.*
 import zurg.*
 import barrasDeEnergia.*
 import enemigos.*
+import llaves.*
+import estadosDeJuego.*
+
 
 class Niveles {
 
@@ -14,7 +17,7 @@ class Niveles {
 		return nivel1
 	}
 
-	method pasarASiguienteNivel(personaje) { /*Luego ir viendo precondiciones de paso a nivel del personaje*/
+	method pasarASiguienteNivel(personaje) { 
 		if (meta.position() == harold.position()) {
 			harold.perderEspada()
 			self.siguienteNivel().setear()
@@ -397,7 +400,7 @@ object nivel4 inherits Niveles {
 		
 	}
 	method villanos(){
-		game.addVisual(new Cangrejo(position= game.at(6,4)))
+		game.addVisual(new Cangrejo(position= game.at(6,6)))
 		game.addVisual(new Cangrejo(position= game.at(9,10)))
 		game.addVisual(new Lobo(position= game.at(5,7)))
 		game.addVisual(new Lobo(position= game.at(9,4)))
@@ -417,7 +420,7 @@ object nivel4 inherits Niveles {
 object nivel5 inherits Niveles {
 
 	override method siguienteNivel() {
-		return nivel1
+		return batallaFinal
 	}
 
 	method murosInternos() {
@@ -496,4 +499,108 @@ object nivel5 inherits Niveles {
 	}
 
 }
+
+object batallaFinal inherits Niveles{
+	override method siguienteNivel() {
+		return nivel1
+	}
+	override method elementosEstandar(){
+		harold.position(game.at(2, 6))
+		zurg.position(game.at(9,6))
+		game.addVisual(zurg)
+		game.addVisual(harold)
+		harold.estadoDeEnergia()
+	}
+	override method pasarASiguienteNivel(personaje){
+		self.siguienteNivel().setear()
+	}
+	
+	method murosInternos(){
+		game.addVisual(new Muro(position = game.at(0,0)))
+		game.addVisual(new Muro(position = game.at(1,0)))
+		game.addVisual(new Muro(position = game.at(11,10)))
+		game.addVisual(new Muro(position = game.at(6,1)))
+		game.addVisual(new Muro(position = game.at(7,1)))
+		game.addVisual(new Muro(position = game.at(8,1)))
+		game.addVisual(new Muro(position = game.at(8,2)))
+		game.addVisual(new Muro(position = game.at(8,3)))
+		game.addVisual(new Muro(position = game.at(8,4)))
+		game.addVisual(new Muro(position = game.at(8,5)))
+		game.addVisual(new Muro(position = game.at(7,5)))
+		game.addVisual(new Muro(position = game.at(5,2)))
+		game.addVisual(new Muro(position = game.at(4,3)))
+		game.addVisual(new Muro(position = game.at(3,4)))
+		game.addVisual(new Muro(position = game.at(2,5)))
+		game.addVisual(new Muro(position = game.at(2,7)))
+		game.addVisual(new Muro(position = game.at(3,8)))
+		game.addVisual(new Muro(position = game.at(4,9)))
+		game.addVisual(new Muro(position = game.at(6,10)))
+		game.addVisual(new Muro(position = game.at(4,8)))
+		game.addVisual(new Muro(position = game.at(7,8)))
+		game.addVisual(new Muro(position = game.at(8,7)))
+		game.addVisual(new Muro(position = game.at(8,8)))
+		game.addVisual(new Muro(position = game.at(8,9)))
+		game.addVisual(new Muro(position = game.at(8,10)))
+		game.addVisual(new Muro(position = game.at(5,8)))
+		
+	}
+	
+	method villanos(){
+		game.addVisual(new Cangrejo(position = game.at(3,7)))
+		game.addVisual(new Cangrejo(position = game.at(5,7)))
+		game.addVisual(new Cangrejo(position = game.at(6,5)))
+		game.addVisual(new Cangrejo(position = game.at(5,3)))
+		game.addVisual(new Lobo(position= game.at(6,3)))
+		game.addVisual(new Lobo(position= game.at(3,5)))
+		game.addVisual(new Lobo(position= game.at(7,7)))
+		game.addVisual(new Lobo(position= game.at(7,9)))
+		
+	}
+	
+	method llaves(){
+		game.addVisual(new Llave(position= game.at(4,4)))
+		game.addVisual(new Llave(position= game.at(4,7)))
+		game.addVisual(new Llave(position= game.at(6,2)))
+		game.addVisual(new Llave(position= game.at(7,6)))
+		game.addVisual(new Llave(position= game.at(7,10)))
+		game.addVisual(new Llave(position= game.at(5,9)))
+	}
+	
+	override method controles() {
+		keyboard.up().onPressDo{ harold.moverse(harold.position().up(1))}
+		keyboard.down().onPressDo{ harold.moverse(harold.position().down(1))}
+		keyboard.right().onPressDo{ harold.moverse(harold.position().right(1))}
+		keyboard.left().onPressDo{ harold.moverse(harold.position().left(1))}
+		keyboard.z().onPressDo{ harold.comerPrimeroDeLaMochila()}
+		keyboard.x().onPressDo{ self.vencerAZurg()}  //esto sigue la logica de p con la meta, pero con zurg
+		//tuve que sobreescribir los controles porque crei que era mejor sacar la opcion de apretar p porque el objetivo es vencer a zurg no pasar de nivel
+		
+	}
+	method vencerAZurg(){
+		if(harold.encontroLasLlaves() and harold.position()== zurg.position()){  //metodo que retorna true cuando harold posee 6 llaves (que son las de la batalla), no toco eso hasta que este la mochila
+			harold.derrotarAZurg()
+			game.removeVisual(zurg)
+			game.addVisual(youWin)
+			game.addVisual(restart)
+			keyboard.enter().onPressDo{ self.pasarASiguienteNivel(harold)}
+		
+		}
+		else{
+			game.say(harold, "no puedo derrotar a Zurg aún")
+		}
+	}
+	
+	override method complejidad(){
+		self.murosInternos()
+		self.villanos()
+		self.llaves()
+	}
+}
+
+/*bueno como ven la batalla final esta pensada como otro nivel, use solo cangrejos y lobos porque sus movimientos me venian bien, aca no hay espadas por lo que 
+ * harold tiene que solo esquivar los villanos y buscar las 6 llaves, cuando se para sobre zurrg se apreta x para derrotarlo y se gana la partida, esta la opcion de volver a jugar al final
+ * asi como sta ya pude probarlo y anda, falta terminar la parte de la mochila y la llave que al colisionar con harold da error, seba toque un poco a harold porque queria que no pueda moverse 
+ * cuando gane, esta todo comentado. siento que estoy escribiendo un re texto tengo sueño bai
+ * 
+ */
 

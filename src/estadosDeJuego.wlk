@@ -11,3 +11,8 @@ object restart{
 	method position()= game.at(2,3)
 	method image() = "reset.png"
 }
+
+object youWin{
+	method position()=game.at(3,5)
+	method image()= "youwin.png"
+}
