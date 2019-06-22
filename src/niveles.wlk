@@ -10,14 +10,13 @@ import enemigos.*
 import llaves.*
 import estadosDeJuego.*
 
-
 class Niveles {
 
 	method siguienteNivel() {
 		return nivel1
 	}
 
-	method pasarASiguienteNivel(personaje) { 
+	method pasarASiguienteNivel(personaje) {
 		if (meta.position() == harold.position()) {
 			harold.perderEspada()
 			self.siguienteNivel().setear()
@@ -101,8 +100,7 @@ class Niveles {
 		game.addVisual(harold)
 		game.addVisual(meta)
 		game.addVisual(zurg)
-		harold.estadoDeEnergia() //asi la barra de energia siempre aparece
-		game.onTick(500, "test", { zurg.moverse()})
+		harold.estadoDeEnergia() // asi la barra de energia siempre aparece
 	}
 
 	method colisionesEstandar() {
@@ -116,8 +114,8 @@ object nivel1 inherits Niveles {
 	override method siguienteNivel() {
 		return nivel2
 	}
-	
-	method estadoInicial(){  //configura a harold en su estado inicial(para el reset)
+
+	method estadoInicial() { // configura a harold en su estado inicial(para el reset)
 		harold.setearEnergiaYSalud(300)
 		harold.perderEspada()
 	}
@@ -129,18 +127,15 @@ object nivel1 inherits Niveles {
 		game.addVisual(new Hamburguesa(position = game.at(6, 1)))
 		game.addVisual(new Empanadas(position = game.at(2, 10)))
 	}
-	
-	method armas(){
+
+	method armas() {
 		game.addVisual(new Espada(position = game.at(3, 3)))
 	}
 
 	method villanos() {
-		
-		
-		const cangrejo = new Cangrejo(position = game.at(6,5))
+		var cangrejo = new Cangrejo(position = game.at(6, 5))
 		game.addVisual(cangrejo)
-		//game.onTick(500, "test", { cangrejo.movimiento()})
-		game.addVisual(new Fantasma(position = game.at(7,8)))
+		game.onTick(1000, "Canjero ataca", { cangrejo.movimiento()})
 	}
 
 	method murosInternos() {
@@ -230,27 +225,35 @@ object nivel2 inherits Niveles {
 		game.addVisual(new Muro(position = game.at(7, 2)))
 		game.addVisual(new Muro(position = game.at(8, 2)))
 	}
-	
-	method armas(){
-		game.addVisual(new Espada(position= game.at(10,1)))
+
+	method armas() {
+		game.addVisual(new Espada(position = game.at(10, 1)))
 	}
-	
-	method alimentos(){
-		game.addVisual(new Hamburguesa(position =game.at(1,3)))
-		game.addVisual(new Hamburguesa(position= game.at(8,7)))
-		game.addVisual(new Hamburguesa(position= game.at(1,10)))
+
+	method alimentos() {
+		game.addVisual(new Hamburguesa(position = game.at(1, 3)))
+		game.addVisual(new Hamburguesa(position = game.at(8, 7)))
+		game.addVisual(new Hamburguesa(position = game.at(1, 10)))
 		game.addVisual(new Guiso(position = game.at(10, 4)))
-		game.addVisual(new Guiso(position = game.at(1,5)))
+		game.addVisual(new Guiso(position = game.at(1, 5)))
 		game.addVisual(new Guiso(position = game.at(6, 10)))
-		game.addVisual(new Empanadas(position = game.at(4,10)))
-		game.addVisual(new Empanadas(position = game.at(6,3)))
-		
+		game.addVisual(new Empanadas(position = game.at(4, 10)))
+		game.addVisual(new Empanadas(position = game.at(6, 3)))
 	}
-	method villanos(){
-		game.addVisual(new Cangrejo(position= game.at(5,3)))
-		game.addVisual(new Lobo(position= game.at(6,7)))
-		game.addVisual(new Fantasma(position=game.at(2,5)))
-		game.addVisual(new Fantasma(position=game.at(3,8)))
+
+	method villanos() {
+		var cangrejo = new Cangrejo(position = game.at(5, 3))
+		var lobo = new Lobo(position = game.at(6, 7))
+		var fantasma1 = new Fantasma(position = game.at(2, 5))
+		var fantasma2 = new Fantasma(position = game.at(3, 8))
+		game.addVisual(cangrejo)
+		game.addVisual(lobo)
+		game.addVisual(fantasma1)
+		game.addVisual(fantasma2)
+		game.onTick(750, "Canjero ataca", { cangrejo.movimiento()})
+		game.onTick(750, "Lobo ataca", { lobo.movimiento()})
+		game.onTick(5000, "fantasma ataca", { fantasma1.movimiento()})
+		game.onTick(5000, "fantasma ataca", { fantasma2.movimiento()})
 	}
 
 	override method complejidad() {
@@ -301,28 +304,35 @@ object nivel3 inherits Niveles {
 		game.addVisual(new Muro(position = game.at(3, 1)))
 		game.addVisual(new Muro(position = game.at(8, 1)))
 	}
-	
-	method armas(){
-		game.addVisual(new Espada(position= game.at(7,2)))
-		game.addVisual(new Espada(position= game.at(3,5)))
+
+	method armas() {
+		game.addVisual(new Espada(position = game.at(7, 2)))
+		game.addVisual(new Espada(position = game.at(3, 5)))
 	}
-	
-	method alimentos(){
-		game.addVisual(new Hamburguesa(position =game.at(2,2)))
-		game.addVisual(new Hamburguesa(position= game.at(10,5)))
-		game.addVisual(new Hamburguesa(position= game.at(8,10)))
-		game.addVisual(new Guiso(position = game.at(5,7)))
-		game.addVisual(new Guiso(position = game.at(9,2)))
-		game.addVisual(new Empanadas(position = game.at(10,1)))
-		game.addVisual(new Empanadas(position = game.at(4,10)))
-		
+
+	method alimentos() {
+		game.addVisual(new Hamburguesa(position = game.at(2, 2)))
+		game.addVisual(new Hamburguesa(position = game.at(10, 5)))
+		game.addVisual(new Hamburguesa(position = game.at(8, 10)))
+		game.addVisual(new Guiso(position = game.at(5, 7)))
+		game.addVisual(new Guiso(position = game.at(9, 2)))
+		game.addVisual(new Empanadas(position = game.at(10, 1)))
+		game.addVisual(new Empanadas(position = game.at(4, 10)))
 	}
-	method villanos(){
-		game.addVisual(new Cangrejo(position= game.at(2,10)))
-		game.addVisual(new Cangrejo(position= game.at(4,1)))
-		game.addVisual(new Lobo(position= game.at(7,8)))
-		game.addVisual(new Lobo(position= game.at(9,4)))
-		game.addVisual(new Fantasma(position=game.at(9,7)))
+
+	method villanos() {
+		var cangrejo1 = new Cangrejo(position = game.at(2, 10))
+		var cangrejo2 = new Cangrejo(position = game.at(8, 5))
+		var lobo1 = new Lobo(position = game.at(8, 9))
+		var fantasma = new Fantasma(position = game.at(9, 7))
+		game.addVisual(cangrejo1)
+		game.addVisual(cangrejo2)
+		game.addVisual(lobo1)
+		game.addVisual(fantasma)
+		game.onTick(500, "Canjero1 ataca", { cangrejo1.movimiento()})
+		game.onTick(500, "Canjero2 ataca", { cangrejo2.movimiento()})
+		game.onTick(750, "Lobo1 ataca", { lobo1.movimiento()})
+		game.onTick(3000, "fantasma ataca", { fantasma.movimiento()})
 	}
 
 	override method complejidad() {
@@ -384,27 +394,37 @@ object nivel4 inherits Niveles {
 		game.addVisual(new Muro(position = game.at(9, 2)))
 		game.addVisual(new Muro(position = game.at(9, 1)))
 	}
-	
-	method armas(){
-		game.addVisual(new Espada(position= game.at(4,5)))
-		game.addVisual(new Espada(position= game.at(7,5)))
+
+	method armas() {
+		game.addVisual(new Espada(position = game.at(4, 5)))
+		game.addVisual(new Espada(position = game.at(7, 5)))
 	}
-	
-	method alimentos(){
-		game.addVisual(new Hamburguesa(position =game.at(3,10)))
-		game.addVisual(new Hamburguesa(position= game.at(8,3)))
-		game.addVisual(new Guiso(position = game.at(10,1)))
-		game.addVisual(new Guiso(position = game.at(7,7)))
-		game.addVisual(new Empanadas(position = game.at(1,1)))
-		game.addVisual(new Empanadas(position = game.at(10,6)))
-		
+
+	method alimentos() {
+		game.addVisual(new Hamburguesa(position = game.at(3, 10)))
+		game.addVisual(new Hamburguesa(position = game.at(8, 3)))
+		game.addVisual(new Guiso(position = game.at(10, 1)))
+		game.addVisual(new Guiso(position = game.at(7, 7)))
+		game.addVisual(new Empanadas(position = game.at(1, 1)))
+		game.addVisual(new Empanadas(position = game.at(10, 6)))
 	}
-	method villanos(){
-		game.addVisual(new Cangrejo(position= game.at(6,6)))
-		game.addVisual(new Cangrejo(position= game.at(9,10)))
-		game.addVisual(new Lobo(position= game.at(5,7)))
-		game.addVisual(new Lobo(position= game.at(9,4)))
-		game.addVisual(new Fantasma(position=game.at(2,5)))
+
+	method villanos() {
+		var cangrejo1 = new Cangrejo(position = game.at(6, 6))
+		var cangrejo2 = new Cangrejo(position = game.at(9, 10))
+		var lobo1 = new Lobo(position = game.at(5, 7))
+		var lobo2 = new Lobo(position = game.at(10, 4))
+		var fantasma = new Fantasma(position = game.at(2, 5))
+		game.addVisual(cangrejo1)
+		game.addVisual(cangrejo2)
+		game.addVisual(lobo1)
+		game.addVisual(lobo2)
+		game.addVisual(fantasma)
+		game.onTick(500, "Canjero1 ataca", { cangrejo1.movimiento()})
+		game.onTick(500, "Canjero2 ataca", { cangrejo2.movimiento()})
+		game.onTick(750, "Lobo1 ataca", { lobo1.movimiento()})
+		game.onTick(750, "Lobo2 ataca", { lobo2.movimiento()})
+		game.onTick(2000, "fantasma ataca", { fantasma.movimiento()})
 	}
 
 	override method complejidad() {
@@ -465,30 +485,43 @@ object nivel5 inherits Niveles {
 		game.addVisual(new Muro(position = game.at(8, 2)))
 		game.addVisual(new Muro(position = game.at(9, 2)))
 	}
-	
-	method armas(){
-		game.addVisual(new Espada(position= game.at(1,6)))
-		game.addVisual(new Espada(position= game.at(8,6)))
+
+	method armas() {
+		game.addVisual(new Espada(position = game.at(1, 6)))
+		game.addVisual(new Espada(position = game.at(8, 6)))
 	}
-	
-	method alimentos(){
-		game.addVisual(new Hamburguesa(position =game.at(3,10)))
-		game.addVisual(new Hamburguesa(position= game.at(10,1)))
-		game.addVisual(new Hamburguesa(position= game.at(4,7)))
-		game.addVisual(new Guiso(position = game.at(6,3)))
-		game.addVisual(new Empanadas(position = game.at(10,8)))
-		
+
+	method alimentos() {
+		game.addVisual(new Hamburguesa(position = game.at(3, 10)))
+		game.addVisual(new Hamburguesa(position = game.at(10, 1)))
+		game.addVisual(new Hamburguesa(position = game.at(4, 7)))
+		game.addVisual(new Guiso(position = game.at(6, 3)))
+		game.addVisual(new Empanadas(position = game.at(10, 8)))
 	}
-	method villanos(){
-		game.addVisual(new Cangrejo(position= game.at(2,8)))
-		game.addVisual(new Cangrejo(position= game.at(2,2)))
-		game.addVisual(new Cangrejo(position= game.at(8,7)))
-		game.addVisual(new Lobo(position= game.at(7,10)))
-		game.addVisual(new Lobo(position= game.at(9,4)))
-		game.addVisual(new Fantasma(position=game.at(6,4)))
-		game.addVisual(new Fantasma(position=game.at(10,10)))
+
+	method villanos() {
+		var cangrejo1 = new Cangrejo(position = game.at(2, 8))
+		var cangrejo2 = new Cangrejo(position = game.at(2, 2))
+		var cangrejo3 = new Cangrejo(position = game.at(8, 7))
+		var lobo1 = new Lobo(position = game.at(8, 10))
+		var lobo2 = new Lobo(position = game.at(10, 4))
+		var fantasma = new Fantasma(position = game.at(6, 4))
+		var fantasma2 = new Fantasma(position = game.at(10, 10))
+		game.addVisual(cangrejo1)
+		game.addVisual(cangrejo2)
+		game.addVisual(cangrejo3)
+		game.addVisual(lobo1)
+		game.addVisual(lobo2)
+		game.addVisual(fantasma)
+		game.addVisual(fantasma2)
+		game.onTick(500, "Canjero1 ataca", { cangrejo1.movimiento()})
+		game.onTick(500, "Canjero2 ataca", { cangrejo2.movimiento()})
+		game.onTick(500, "Canjero3 ataca", { cangrejo3.movimiento()})
+		game.onTick(750, "Lobo1 ataca", { lobo1.movimiento()})
+		game.onTick(750, "Lobo2 ataca", { lobo2.movimiento()})
+		game.onTick(1500, "fantasma ataca", { fantasma.movimiento()})
+		game.onTick(1500, "fantasma2 ataca", { fantasma2.movimiento()})
 	}
-	
 
 	override method complejidad() {
 		self.murosInternos()
@@ -500,101 +533,116 @@ object nivel5 inherits Niveles {
 
 }
 
-object batallaFinal inherits Niveles{
+object batallaFinal inherits Niveles {
+
 	override method siguienteNivel() {
 		return nivel1
 	}
-	override method elementosEstandar(){
+
+	override method elementosEstandar() {
 		harold.position(game.at(2, 6))
-		zurg.position(game.at(9,6))
+		zurg.position(game.at(9, 6))
 		game.addVisual(zurg)
 		game.addVisual(harold)
 		harold.estadoDeEnergia()
 	}
-	override method pasarASiguienteNivel(personaje){
+
+	override method pasarASiguienteNivel(personaje) {
 		self.siguienteNivel().setear()
 	}
-	
-	method murosInternos(){
-		game.addVisual(new Muro(position = game.at(0,0)))
-		game.addVisual(new Muro(position = game.at(1,0)))
-		game.addVisual(new Muro(position = game.at(11,10)))
-		game.addVisual(new Muro(position = game.at(6,1)))
-		game.addVisual(new Muro(position = game.at(7,1)))
-		game.addVisual(new Muro(position = game.at(8,1)))
-		game.addVisual(new Muro(position = game.at(8,2)))
-		game.addVisual(new Muro(position = game.at(8,3)))
-		game.addVisual(new Muro(position = game.at(8,4)))
-		game.addVisual(new Muro(position = game.at(8,5)))
-		game.addVisual(new Muro(position = game.at(7,5)))
-		game.addVisual(new Muro(position = game.at(5,2)))
-		game.addVisual(new Muro(position = game.at(4,3)))
-		game.addVisual(new Muro(position = game.at(3,4)))
-		game.addVisual(new Muro(position = game.at(2,5)))
-		game.addVisual(new Muro(position = game.at(2,7)))
-		game.addVisual(new Muro(position = game.at(3,8)))
-		game.addVisual(new Muro(position = game.at(4,9)))
-		game.addVisual(new Muro(position = game.at(6,10)))
-		game.addVisual(new Muro(position = game.at(4,8)))
-		game.addVisual(new Muro(position = game.at(7,8)))
-		game.addVisual(new Muro(position = game.at(8,7)))
-		game.addVisual(new Muro(position = game.at(8,8)))
-		game.addVisual(new Muro(position = game.at(8,9)))
-		game.addVisual(new Muro(position = game.at(8,10)))
-		game.addVisual(new Muro(position = game.at(5,8)))
-		
+
+	method murosInternos() {
+		game.addVisual(new Muro(position = game.at(0, 0)))
+		game.addVisual(new Muro(position = game.at(1, 0)))
+		game.addVisual(new Muro(position = game.at(11, 10)))
+		game.addVisual(new Muro(position = game.at(6, 1)))
+		game.addVisual(new Muro(position = game.at(7, 1)))
+		game.addVisual(new Muro(position = game.at(8, 1)))
+		game.addVisual(new Muro(position = game.at(8, 2)))
+		game.addVisual(new Muro(position = game.at(8, 3)))
+		game.addVisual(new Muro(position = game.at(8, 4)))
+		game.addVisual(new Muro(position = game.at(8, 5)))
+		game.addVisual(new Muro(position = game.at(7, 5)))
+		game.addVisual(new Muro(position = game.at(5, 2)))
+		game.addVisual(new Muro(position = game.at(4, 3)))
+		game.addVisual(new Muro(position = game.at(3, 4)))
+		game.addVisual(new Muro(position = game.at(2, 5)))
+		game.addVisual(new Muro(position = game.at(2, 7)))
+		game.addVisual(new Muro(position = game.at(3, 8)))
+		game.addVisual(new Muro(position = game.at(4, 9)))
+		game.addVisual(new Muro(position = game.at(6, 10)))
+		game.addVisual(new Muro(position = game.at(4, 8)))
+		game.addVisual(new Muro(position = game.at(7, 8)))
+		game.addVisual(new Muro(position = game.at(8, 7)))
+		game.addVisual(new Muro(position = game.at(8, 8)))
+		game.addVisual(new Muro(position = game.at(8, 9)))
+		game.addVisual(new Muro(position = game.at(8, 10)))
+		game.addVisual(new Muro(position = game.at(5, 8)))
 	}
-	
-	method villanos(){
-		game.addVisual(new Cangrejo(position = game.at(3,7)))
-		game.addVisual(new Cangrejo(position = game.at(5,7)))
-		game.addVisual(new Cangrejo(position = game.at(6,5)))
-		game.addVisual(new Cangrejo(position = game.at(5,3)))
-		game.addVisual(new Lobo(position= game.at(6,3)))
-		game.addVisual(new Lobo(position= game.at(3,5)))
-		game.addVisual(new Lobo(position= game.at(7,7)))
-		game.addVisual(new Lobo(position= game.at(7,9)))
-		
+
+	method villanos() {
+		var cangrejo1 = new Cangrejo(position = game.at(3, 7))
+		var cangrejo2 = new Cangrejo(position = game.at(5, 7))
+		var cangrejo3 = new Cangrejo(position = game.at(6, 5))
+		var cangrejo4 = new Cangrejo(position = game.at(7, 3))
+		var lobo1 = new Lobo(position = game.at(6, 3))
+		var lobo2 = new Lobo(position = game.at(4, 5))
+		var lobo3 = new Lobo(position = game.at(7, 7))
+		var lobo4 = new Lobo(position = game.at(7, 9))
+		game.addVisual(cangrejo1)
+		game.addVisual(cangrejo2)
+		game.addVisual(cangrejo3)
+		game.addVisual(lobo1)
+		game.addVisual(lobo2)
+		game.addVisual(lobo3)
+		game.addVisual(lobo4)
+		game.onTick(500, "Canjero1 ataca", { cangrejo1.movimiento()})
+		game.onTick(500, "Canjero2 ataca", { cangrejo2.movimiento()})
+		game.onTick(500, "Canjero3 ataca", { cangrejo3.movimiento()})
+		game.onTick(500, "Canjero4 ataca", { cangrejo4.movimiento()})
+		game.onTick(500, "Lobo1 ataca", { lobo1.movimiento()})
+		game.onTick(500, "Lobo2 ataca", { lobo2.movimiento()})
+		game.onTick(500, "Lobo3 ataca", { lobo3.movimiento()})
+		game.onTick(500, "Lobo4 ataca", { lobo4.movimiento()})
 	}
-	
-	method llaves(){
-		game.addVisual(new Llave(position= game.at(4,4)))
-		game.addVisual(new Llave(position= game.at(4,7)))
-		game.addVisual(new Llave(position= game.at(6,2)))
-		game.addVisual(new Llave(position= game.at(7,6)))
-		game.addVisual(new Llave(position= game.at(7,10)))
-		game.addVisual(new Llave(position= game.at(5,9)))
+
+	method llaves() {
+		game.addVisual(new Llave(position = game.at(4, 4)))
+		game.addVisual(new Llave(position = game.at(4, 7)))
+		game.addVisual(new Llave(position = game.at(6, 2)))
+		game.addVisual(new Llave(position = game.at(7, 6)))
+		game.addVisual(new Llave(position = game.at(7, 4)))
+		game.addVisual(new Llave(position = game.at(5, 9)))
 	}
-	
+
 	override method controles() {
 		keyboard.up().onPressDo{ harold.moverse(harold.position().up(1))}
 		keyboard.down().onPressDo{ harold.moverse(harold.position().down(1))}
 		keyboard.right().onPressDo{ harold.moverse(harold.position().right(1))}
 		keyboard.left().onPressDo{ harold.moverse(harold.position().left(1))}
 		keyboard.z().onPressDo{ harold.comerPrimeroDeLaMochila()}
-		keyboard.x().onPressDo{ self.vencerAZurg()}  //esto sigue la logica de p con la meta, pero con zurg
-		//tuve que sobreescribir los controles porque crei que era mejor sacar la opcion de apretar p porque el objetivo es vencer a zurg no pasar de nivel
-		
+		keyboard.x().onPressDo{ self.vencerAZurg()} // esto sigue la logica de p con la meta, pero con zurg
+		// tuve que sobreescribir los controles porque crei que era mejor sacar la opcion de apretar p porque el objetivo es vencer a zurg no pasar de nivel
 	}
-	method vencerAZurg(){
-		if(harold.encontroLasLlaves() and harold.position()== zurg.position()){  //metodo que retorna true cuando harold posee 6 llaves (que son las de la batalla), no toco eso hasta que este la mochila
+
+	method vencerAZurg() {
+		if (harold.encontroLasLlaves() and harold.position() == zurg.position()) { // metodo que retorna true cuando harold posee 6 llaves (que son las de la batalla), no toco eso hasta que este la mochila
 			harold.derrotarAZurg()
 			game.removeVisual(zurg)
 			game.addVisual(youWin)
 			game.addVisual(restart)
 			keyboard.enter().onPressDo{ self.pasarASiguienteNivel(harold)}
-		
-		}
-		else{
+		} else {
 			game.say(harold, "no puedo derrotar a Zurg aún")
 		}
 	}
-	
-	override method complejidad(){
+
+	override method complejidad() {
 		self.murosInternos()
 		self.villanos()
 		self.llaves()
 	}
+
 }
 
 /*bueno como ven la batalla final esta pensada como otro nivel, use solo cangrejos y lobos porque sus movimientos me venian bien, aca no hay espadas por lo que 
@@ -603,4 +651,3 @@ object batallaFinal inherits Niveles{
  * cuando gane, esta todo comentado. siento que estoy escribiendo un re texto tengo sueño bai
  * 
  */
-
