@@ -51,7 +51,7 @@ object harold {
 		salud = num
 	}
 
-	method guardarLlave(llave) {
+	method guardarLlaves(llave) {
 		mochilaDeHarold.guardarLlave(llave)
 		game.removeVisual(llave)
 	}
