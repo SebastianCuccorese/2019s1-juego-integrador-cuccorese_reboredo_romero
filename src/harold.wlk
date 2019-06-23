@@ -41,7 +41,7 @@ object harold {
 
 	method gameOverYReset() {
 		game.addVisual(gameover)
-		game.addVisual(restart) // en gameover.wlk
+		game.addVisual(restart) 
 		game.say(zurg, "Estas muerto")
 		keyboard.enter().onPressDo{ nivel1.setear()} // vuelve a iniciar el juego
 	}
@@ -65,6 +65,7 @@ object harold {
 		if (self.mochilaDeHarold().comidas().size() > 0 and self.energia() > 0) {
 			energia += mochilaDeHarold.comidas().first().energia()
 			mochilaDeHarold.comidas().remove(mochilaDeHarold.comidas().first())
+			self.estadoDeEnergia()
 		} else {
 			throw new Exception("la mochila esta vacia")
 		}
@@ -74,6 +75,7 @@ object harold {
 		if (not self.espada()) {
 			salud -= enemigo.ataque()
 			position = oldPosition
+			self.estadoDeSalud()
 			game.say(self, "No puedo pelear sin la espada")
 		} else {
 			game.removeVisual(enemigo)
@@ -83,6 +85,11 @@ object harold {
 	method estadoDeEnergia() {
 		barraEnergia.energiaDe_(self)
 		game.addVisual(barraEnergia)
+	}
+	
+	method estadoDeSalud(){
+		barraDeSalud.saludDe_(self)
+		game.addVisual(barraDeSalud)
 	}
 
 	method agarrarEspada() {
@@ -96,6 +103,7 @@ object harold {
 	method chocarConMuro() {
 		salud -= 10
 		position = oldPosition
+		self.estadoDeSalud()
 	}
 
 	method teEncontro(persona) {
@@ -105,7 +113,11 @@ object harold {
 		game.say(self, "tengo" + self.salud() + "de salud") // para que el usuario sepa cuanto tiene de salud
 	}
 	
-	method encontroLasLlaves(){return true}  //por el momento retorno true como prueba
+	method encontroLasLlaves(){return mochilaDeHarold.estanLasSeisLlavesBuscadas()} 
+	 
+	method soltarLlaves(){mochilaDeHarold.sacarLlaves()}
+	
+	method tieneLlave(){return mochilaDeHarold.hayLlave()}
 
 }
 

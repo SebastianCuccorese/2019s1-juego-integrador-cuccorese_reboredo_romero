@@ -17,8 +17,9 @@ class Niveles {
 	}
 
 	method pasarASiguienteNivel(personaje) {
-		if (meta.position() == harold.position()) {
+		if (meta.position() == harold.position() and harold.tieneLlave()) {
 			harold.perderEspada()
+			harold.soltarLlaves()
 			self.siguienteNivel().setear()
 		} else {
 			game.say(harold, "No puedo pasar de Nivel")
@@ -97,10 +98,14 @@ class Niveles {
 
 	method elementosEstandar() {
 		harold.position(game.at(0, 0))
+		zurg.position(game.at(0,10))
 		game.addVisual(harold)
 		game.addVisual(meta)
 		game.addVisual(zurg)
 		harold.estadoDeEnergia() // asi la barra de energia siempre aparece
+		game.addVisual(energia)
+		harold.estadoDeSalud()
+		game.addVisual(salud)
 	}
 
 	method colisionesEstandar() {
@@ -116,7 +121,7 @@ object nivel1 inherits Niveles {
 	}
 
 	method estadoInicial() { // configura a harold en su estado inicial(para el reset)
-		harold.setearEnergiaYSalud(300)
+		harold.setearEnergiaYSalud(150)
 		harold.perderEspada()
 	}
 
@@ -126,10 +131,17 @@ object nivel1 inherits Niveles {
 		game.addVisual(new Hamburguesa(position = game.at(1, 3)))
 		game.addVisual(new Hamburguesa(position = game.at(6, 1)))
 		game.addVisual(new Empanadas(position = game.at(2, 10)))
+		game.addVisual(new Empanadas(position = game.at(10,4)))
+		game.addVisual(new Hamburguesa(position = game.at(7, 8)))
+		
 	}
 
 	method armas() {
 		game.addVisual(new Espada(position = game.at(3, 3)))
+	}
+	
+	method llave(){
+		game.addVisual(new Llave(position = game.at(6,7)))
 	}
 
 	method villanos() {
@@ -184,6 +196,7 @@ object nivel1 inherits Niveles {
 		self.villanos()
 		self.estadoInicial()
 		self.armas()
+		self.llave()
 	}
 
 }
@@ -255,12 +268,17 @@ object nivel2 inherits Niveles {
 		game.onTick(5000, "fantasma ataca", { fantasma1.movimiento()})
 		game.onTick(5000, "fantasma ataca", { fantasma2.movimiento()})
 	}
+	
+	method llave(){
+		game.addVisual(new Llave(position = game.at(4,7)))
+	}
 
 	override method complejidad() {
 		self.murosInternos()
 		self.armas()
 		self.alimentos()
 		self.villanos()
+		self.llave()
 	}
 
 }
@@ -309,6 +327,10 @@ object nivel3 inherits Niveles {
 		game.addVisual(new Espada(position = game.at(7, 2)))
 		game.addVisual(new Espada(position = game.at(3, 5)))
 	}
+	
+	method llave(){
+		game.addVisual(new Llave(position =game.at(4,2)))
+	}
 
 	method alimentos() {
 		game.addVisual(new Hamburguesa(position = game.at(2, 2)))
@@ -341,6 +363,7 @@ object nivel3 inherits Niveles {
 		self.armas()
 		self.alimentos()
 		self.villanos()
+		self.llave()
 	}
 
 }
@@ -426,6 +449,10 @@ object nivel4 inherits Niveles {
 		game.onTick(750, "Lobo2 ataca", { lobo2.movimiento()})
 		game.onTick(2000, "fantasma ataca", { fantasma.movimiento()})
 	}
+	
+	method llave(){
+		game.addVisual(new Llave(position = game.at(9,6)))
+	}
 
 	override method complejidad() {
 		self.murosInternos()
@@ -433,6 +460,7 @@ object nivel4 inherits Niveles {
 		self.armas()
 		self.alimentos()
 		self.villanos()
+		self.llave()
 	}
 
 }
@@ -522,6 +550,10 @@ object nivel5 inherits Niveles {
 		game.onTick(1500, "fantasma ataca", { fantasma.movimiento()})
 		game.onTick(1500, "fantasma2 ataca", { fantasma2.movimiento()})
 	}
+	
+	method llave(){
+		game.addVisual(new Llave(position = game.at(10,5)))
+	}
 
 	override method complejidad() {
 		self.murosInternos()
@@ -529,6 +561,7 @@ object nivel5 inherits Niveles {
 		self.armas()
 		self.alimentos()
 		self.villanos()
+		self.llave()
 	}
 
 }
@@ -545,9 +578,14 @@ object batallaFinal inherits Niveles {
 		game.addVisual(zurg)
 		game.addVisual(harold)
 		harold.estadoDeEnergia()
+		harold.estadoDeEnergia()
+		game.addVisual(energia)
+		harold.estadoDeSalud()
+		game.addVisual(salud)
 	}
 
 	override method pasarASiguienteNivel(personaje) {
+		harold.soltarLlaves()
 		self.siguienteNivel().setear()
 	}
 
@@ -578,6 +616,7 @@ object batallaFinal inherits Niveles {
 		game.addVisual(new Muro(position = game.at(8, 9)))
 		game.addVisual(new Muro(position = game.at(8, 10)))
 		game.addVisual(new Muro(position = game.at(5, 8)))
+		game.addVisual(new Muro(position = game.at(5, 10)))
 	}
 
 	method villanos() {
@@ -626,7 +665,7 @@ object batallaFinal inherits Niveles {
 	}
 
 	method vencerAZurg() {
-		if (harold.encontroLasLlaves() and harold.position() == zurg.position()) { // metodo que retorna true cuando harold posee 6 llaves (que son las de la batalla), no toco eso hasta que este la mochila
+		if (harold.encontroLasLlaves() and harold.position() == zurg.position()) { // metodo que retorna true cuando harold posee 6 llaves (que son las de la batalla)
 			harold.derrotarAZurg()
 			game.removeVisual(zurg)
 			game.addVisual(youWin)
@@ -645,9 +684,4 @@ object batallaFinal inherits Niveles {
 
 }
 
-/*bueno como ven la batalla final esta pensada como otro nivel, use solo cangrejos y lobos porque sus movimientos me venian bien, aca no hay espadas por lo que 
- * harold tiene que solo esquivar los villanos y buscar las 6 llaves, cuando se para sobre zurrg se apreta x para derrotarlo y se gana la partida, esta la opcion de volver a jugar al final
- * asi como sta ya pude probarlo y anda, falta terminar la parte de la mochila y la llave que al colisionar con harold da error, seba toque un poco a harold porque queria que no pueda moverse 
- * cuando gane, esta todo comentado. siento que estoy escribiendo un re texto tengo sueño bai
- * 
- */
+

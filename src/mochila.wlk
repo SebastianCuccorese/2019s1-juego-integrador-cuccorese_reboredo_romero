@@ -13,10 +13,16 @@ object mochila {
 		comidas.add(comida)
 	}	
 		
-	method revisarSiHayLlave() {
+	method hayLlave() {
 		return self.llaves().size() > 0				
 		}
-	method guardarLlaves(llave) {
+	method guardarLlave(llave) {
 		llaves.add(llave)
-	}	
 	}
+	method estanLasSeisLlavesBuscadas(){
+		return self.llaves().size() == 6
+	}
+	method sacarLlaves(){
+		self.llaves().clear()
+	}	
+}
