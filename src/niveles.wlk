@@ -22,11 +22,15 @@ class Niveles {
 		game.say(zurg, "Estas muerto")
 		keyboard.enter().onPressDo{ nivel1.setear()} // vuelve a iniciar el juego
 	}
-
-	method pasarSiPuede(personaje) {
-		if (not (personaje.puedePasarDeNivel())) {
+/*Metodo con Verificacion y error (Tiene un BUG que muestra el mensaje de error al pasar de nivel */
+	/*method pasarSiPuede(personaje) {
+		if (personaje.puedePasarDeNivel()) {
+			self.pasarASiguienteNivel(personaje)
+		}else{
 			personaje.porqueNoPuedePasar()
 		}
+	}*/
+	method pasarSiPuede(personaje) {
 		if (personaje.puedePasarDeNivel()) {
 			self.pasarASiguienteNivel(personaje)
 		}
