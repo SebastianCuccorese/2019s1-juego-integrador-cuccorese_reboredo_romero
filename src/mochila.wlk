@@ -25,4 +25,7 @@ object mochila {
 	method sacarLlaves(){
 		self.llaves().clear()
 	}	
+	method cantidadDeComida(){
+		return comidas.size()
+	}
 }

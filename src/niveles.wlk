@@ -16,14 +16,26 @@ class Niveles {
 		return nivel1
 	}
 
-	method pasarASiguienteNivel(personaje) {
-		if (meta.position() == harold.position() and harold.tieneLlave()) {
-			harold.perderEspada()
-			harold.soltarLlaves()
-			self.siguienteNivel().setear()
-		} else {
-			game.say(harold, "No puedo pasar de Nivel")
+	method gameOverYReset() {
+		game.addVisual(gameover)
+		game.addVisual(restart)
+		game.say(zurg, "Estas muerto")
+		keyboard.enter().onPressDo{ nivel1.setear()} // vuelve a iniciar el juego
+	}
+
+	method pasarSiPuede(personaje) {
+		if (not (personaje.puedePasarDeNivel())) {
+			personaje.porqueNoPuedePasar()
 		}
+		if (personaje.puedePasarDeNivel()) {
+			self.pasarASiguienteNivel(personaje)
+		}
+	}
+
+	method pasarASiguienteNivel(personaje) {
+		personaje.perderEspada()
+		personaje.soltarLlaves()
+		self.siguienteNivel().setear()
 	}
 
 	method setear() {
@@ -43,6 +55,14 @@ class Niveles {
 	}
 
 	method murosLaterales() {
+		game.addVisual(new Muro(position = game.at(12, 12)))
+		game.addVisual(new Muro(position = game.at(12, 10)))
+		game.addVisual(new Muro(position = game.at(11, 12)))
+		game.addVisual(new Muro(position = game.at(12, 11)))
+		game.addVisual(new Muro(position = game.at(0, -1)))
+		game.addVisual(new Muro(position = game.at(-1, 0)))
+		game.addVisual(new Muro(position = game.at(1, -1)))
+		game.addVisual(new Muro(position = game.at(-1, 2)))
 		game.addVisual(new Muro(position = game.at(11, 11)))
 		game.addVisual(new Muro(position = game.at(10, 11)))
 		game.addVisual(new Muro(position = game.at(9, 11)))
@@ -93,12 +113,14 @@ class Niveles {
 		keyboard.right().onPressDo{ harold.moverse(harold.position().right(1))}
 		keyboard.left().onPressDo{ harold.moverse(harold.position().left(1))}
 		keyboard.z().onPressDo{ harold.comerPrimeroDeLaMochila()}
-		keyboard.p().onPressDo{ self.pasarASiguienteNivel(harold)}
+		keyboard.p().onPressDo{ self.pasarSiPuede(harold)}
+		keyboard.x().onPressDo{ self.vencerAZurg(harold)}
+		keyboard.m().onPressDo{ game.say(harold, "Tengo " + harold.cantidadDeComida() + " comida(s) en la mochilla")}
 	}
 
 	method elementosEstandar() {
 		harold.position(game.at(0, 0))
-		zurg.position(game.at(0,10))
+		zurg.position(game.at(0, 10))
 		game.addVisual(harold)
 		game.addVisual(meta)
 		game.addVisual(zurg)
@@ -110,6 +132,18 @@ class Niveles {
 
 	method colisionesEstandar() {
 		game.whenCollideDo(harold, { cosa => cosa.teEncontro(harold)})
+	}
+
+	method vencerAZurg(personaje) {
+		if (personaje.encontroLasLlaves() and personaje.position() == zurg.position()) { // metodo que retorna true cuando harold posee 6 llaves (que son las de la batalla)
+			personaje.derrotarAZurg()
+			game.removeVisual(zurg)
+			game.addVisual(youWin)
+			game.addVisual(restart)
+			keyboard.enter().onPressDo{ self.pasarASiguienteNivel(personaje)}
+		} else {
+			game.say(personaje, "no puedo derrotar a Zurg aún")
+		}
 	}
 
 }
@@ -131,17 +165,16 @@ object nivel1 inherits Niveles {
 		game.addVisual(new Hamburguesa(position = game.at(1, 3)))
 		game.addVisual(new Hamburguesa(position = game.at(6, 1)))
 		game.addVisual(new Empanadas(position = game.at(2, 10)))
-		game.addVisual(new Empanadas(position = game.at(10,4)))
+		game.addVisual(new Empanadas(position = game.at(10, 4)))
 		game.addVisual(new Hamburguesa(position = game.at(7, 8)))
-		
 	}
 
 	method armas() {
 		game.addVisual(new Espada(position = game.at(3, 3)))
 	}
-	
-	method llave(){
-		game.addVisual(new Llave(position = game.at(6,7)))
+
+	method llave() {
+		game.addVisual(new Llave(position = game.at(6, 7)))
 	}
 
 	method villanos() {
@@ -268,9 +301,9 @@ object nivel2 inherits Niveles {
 		game.onTick(5000, "fantasma ataca", { fantasma1.movimiento()})
 		game.onTick(5000, "fantasma ataca", { fantasma2.movimiento()})
 	}
-	
-	method llave(){
-		game.addVisual(new Llave(position = game.at(4,7)))
+
+	method llave() {
+		game.addVisual(new Llave(position = game.at(4, 7)))
 	}
 
 	override method complejidad() {
@@ -327,9 +360,9 @@ object nivel3 inherits Niveles {
 		game.addVisual(new Espada(position = game.at(7, 2)))
 		game.addVisual(new Espada(position = game.at(3, 5)))
 	}
-	
-	method llave(){
-		game.addVisual(new Llave(position =game.at(4,2)))
+
+	method llave() {
+		game.addVisual(new Llave(position = game.at(4, 2)))
 	}
 
 	method alimentos() {
@@ -449,9 +482,9 @@ object nivel4 inherits Niveles {
 		game.onTick(750, "Lobo2 ataca", { lobo2.movimiento()})
 		game.onTick(2000, "fantasma ataca", { fantasma.movimiento()})
 	}
-	
-	method llave(){
-		game.addVisual(new Llave(position = game.at(9,6)))
+
+	method llave() {
+		game.addVisual(new Llave(position = game.at(9, 6)))
 	}
 
 	override method complejidad() {
@@ -550,9 +583,9 @@ object nivel5 inherits Niveles {
 		game.onTick(1500, "fantasma ataca", { fantasma.movimiento()})
 		game.onTick(1500, "fantasma2 ataca", { fantasma2.movimiento()})
 	}
-	
-	method llave(){
-		game.addVisual(new Llave(position = game.at(10,5)))
+
+	method llave() {
+		game.addVisual(new Llave(position = game.at(10, 5)))
 	}
 
 	override method complejidad() {
@@ -582,11 +615,6 @@ object batallaFinal inherits Niveles {
 		game.addVisual(energia)
 		harold.estadoDeSalud()
 		game.addVisual(salud)
-	}
-
-	override method pasarASiguienteNivel(personaje) {
-		harold.soltarLlaves()
-		self.siguienteNivel().setear()
 	}
 
 	method murosInternos() {
@@ -654,28 +682,6 @@ object batallaFinal inherits Niveles {
 		game.addVisual(new Llave(position = game.at(5, 9)))
 	}
 
-	override method controles() {
-		keyboard.up().onPressDo{ harold.moverse(harold.position().up(1))}
-		keyboard.down().onPressDo{ harold.moverse(harold.position().down(1))}
-		keyboard.right().onPressDo{ harold.moverse(harold.position().right(1))}
-		keyboard.left().onPressDo{ harold.moverse(harold.position().left(1))}
-		keyboard.z().onPressDo{ harold.comerPrimeroDeLaMochila()}
-		keyboard.x().onPressDo{ self.vencerAZurg()} // esto sigue la logica de p con la meta, pero con zurg
-		// tuve que sobreescribir los controles porque crei que era mejor sacar la opcion de apretar p porque el objetivo es vencer a zurg no pasar de nivel
-	}
-
-	method vencerAZurg() {
-		if (harold.encontroLasLlaves() and harold.position() == zurg.position()) { // metodo que retorna true cuando harold posee 6 llaves (que son las de la batalla)
-			harold.derrotarAZurg()
-			game.removeVisual(zurg)
-			game.addVisual(youWin)
-			game.addVisual(restart)
-			keyboard.enter().onPressDo{ self.pasarASiguienteNivel(harold)}
-		} else {
-			game.say(harold, "no puedo derrotar a Zurg aún")
-		}
-	}
-
 	override method complejidad() {
 		self.murosInternos()
 		self.villanos()
@@ -683,5 +689,4 @@ object batallaFinal inherits Niveles {
 	}
 
 }
-
 
